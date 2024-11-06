@@ -11,7 +11,7 @@ function LoginPage() {
 
     const handleLogin = async () => {
         try {
-            const response = await axios.post("http://localhost:8000/api/auth/login", {
+            const response = await axios.post("https://movie-api-c2y6.onrender.com/api/auth/login", {
                 username,
                 password
             });
@@ -24,7 +24,7 @@ function LoginPage() {
 
     const handleRegister = async () => {
         try {
-            await axios.post("http://localhost:8000/api/auth/register", {
+            await axios.post("https://movie-api-c2y6.onrender.com/api/auth/register", {
                 username,
                 password
             });
