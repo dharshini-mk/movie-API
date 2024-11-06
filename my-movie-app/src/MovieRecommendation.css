@@ -1,7 +1,16 @@
 /* App styles for Netflix-style interface */
 body {
+  background-image: url('bgphoto.jpg'); /* Path to your image */
+  background-size: cover; /* Ensures the background covers the whole page */
+  background-position:center; /* Centers the image */
+  background-attachment: fixed; 
+  background-repeat: no-repeat; /* Prevents the image from repeating */
+  height: 100vh; /* Ensure the background covers the entire height of the viewport */
+  margin: 0; /* Remove default margin */
     margin: 0;
-    font-family: 'Arial', sans-serif;
+    font-family: "Poppins", sans-serif;
+  font-weight: 300;
+  font-style: normal;
     background-color: #141414;
     color: white;
   }
@@ -13,6 +22,11 @@ body {
   
   .app-header {
     padding: 20px;
+  }
+
+  .line1{
+    padding-bottom: 30px;
+    font-weight: 500;
   }
   
   .search-input {

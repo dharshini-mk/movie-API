@@ -16,6 +16,9 @@ function App() {
 
     // Function to fetch trending movies
     const fetchTrendingMovies = async () => {
+        setLoading(true); // Show loading before fetching data
+        setError(null);
+
         try {
             const response = await axios.get(`https://api.themoviedb.org/3/trending/movie/day?api_key=${TMDB_API_KEY}`);
             if (response.data.results) {
@@ -23,12 +26,25 @@ function App() {
                 // Add an OMDb call for each trending movie to get full details
                 const moviesWithDetails = await Promise.all(
                     trendingMovies.map(async (movie) => {
+                        // Check for missing title or release date
+                        if (!movie.title || !movie.release_date) {
+                            console.error(`Missing title or release date for movie:`, movie);
+                            return movie; // Skip OMDB call if title or release date is missing
+                        }
+
                         try {
-                            const omdbResponse = await axios.get(`http://www.omdbapi.com/?apikey=${API_KEY}&t=${encodeURIComponent(movie.title)}&y=${new Date(movie.release_date).getFullYear()}`);
-                            return { ...movie, ...omdbResponse.data };
+                            const omdbResponse = await axios.get(`https://www.omdbapi.com/?apikey=${API_KEY}&t=${encodeURIComponent(movie.title)}&y=${new Date(movie.release_date).getFullYear()}`);
+                            
+                            // Check if OMDb returns valid data
+                            if (omdbResponse.data.Response === "True") {
+                                return { ...movie, ...omdbResponse.data };
+                            } else {
+                                console.error(`OMDB API error for ${movie.title}:`, omdbResponse.data.Error);
+                                return movie; // Fallback to TMDB data
+                            }
                         } catch (err) {
                             console.error(`Error fetching details for ${movie.title}:`, err);
-                            return movie; // Fallback to TMDB data
+                            return movie; // Fallback to TMDB data in case of error
                         }
                     })
                 );
@@ -38,7 +54,13 @@ function App() {
             }
         } catch (error) {
             console.error("Error fetching trending movies:", error);
-            setError("An error occurred while fetching trending movies.");
+            if (error.response && error.response.status === 429) {
+                setError("API rate limit exceeded. Please try again later.");
+            } else {
+                setError("An error occurred while fetching trending movies.");
+            }
+        } finally {
+            setLoading(false); // Hide loading after fetching
         }
     };
 
@@ -53,7 +75,7 @@ function App() {
         }
 
         try {
-            const response = await axios.get(`http://www.omdbapi.com/?apikey=${API_KEY}&s=${query}`);
+            const response = await axios.get(`https://www.omdbapi.com/?apikey=${API_KEY}&s=${query}`);
             if (response.data.Response === "True") {
                 setMovies(response.data.Search);
                 setError(null); // Clear any previous errors
@@ -71,7 +93,7 @@ function App() {
 
     const fetchMovieDetails = async (id) => {
         try {
-            const response = await axios.get(`http://www.omdbapi.com/?apikey=${API_KEY}&i=${id}`);
+            const response = await axios.get(`https://www.omdbapi.com/?apikey=${API_KEY}&i=${id}`);
             setSelectedMovie(response.data);
             fetchTrailer(response.data.Title); // Fetch trailer after getting movie details
         } catch (error) {
@@ -120,7 +142,7 @@ function App() {
     return (
         <div className="app">
             <header className="app-header">
-                <h1>Movie Recommendation API</h1>
+                <h1 className="line1">MOVIE RECOMMENDATION API</h1>
                 <form
                     onSubmit={(e) => {
                         e.preventDefault();
@@ -155,7 +177,7 @@ function App() {
                             onClick={() => fetchMovieDetails(movie.imdbID || movie.id)}
                         >
                             <img
-                                src={movie.Poster !== "N/A" ? movie.Poster : `https://image.tmdb.org/t/p/w500/${movie.poster_path}`} 
+                                src={movie.Poster !== "N/A" ? movie.Poster : (movie.poster_path ? `https://image.tmdb.org/t/p/w500/${movie.poster_path}` : 'placeholder.jpg')}
                                 alt={movie.Title || movie.title}
                                 className="movie-poster"
                             />
@@ -192,26 +214,26 @@ function App() {
                             <p><strong>Plot:</strong> {selectedMovie.Plot || 'N/A'}</p>
                             <p><strong>Language:</strong> {selectedMovie.Language || 'N/A'}</p>
                             <p><strong>Country:</strong> {selectedMovie.Country || 'N/A'}</p>
-                            <p><strong>Awards:</strong> {selectedMovie.Awards || 'N/A'}</p>
-                            <p><strong>IMDb Rating:</strong> {selectedMovie.imdbRating || 'N/A'}</p>
-                            {trailerUrl && (
-                                <div className="trailer-container">
-                                    <h3>Trailer</h3>
-                                    <iframe
-                                        width="560"
-                                        height="315"
-                                        src={trailerUrl}
-                                        title="YouTube Video Player"
-                                        frameBorder="0"
-                                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                                        allowFullScreen
-                                    ></iframe>
-                                </div>
-                            )}
+                            <p><strong>IMDB Rating:</strong> {selectedMovie.imdbRating || 'N/A'}</p>
                         </div>
+
+                        {trailerUrl ? (
+                            <div className="trailer-section">
+                                <h3>Watch the Trailer</h3>
+                                <iframe
+                                    width="560"
+                                    height="315"
+                                    src={trailerUrl}
+                                    title="YouTube video player"
+                                    frameBorder="0"
+                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                    allowFullScreen
+                                ></iframe>
+                            </div>
+                        ) : (
+                            <p>Trailer not available</p>
+                        )}
                     </div>
-
-
                 </div>
             )}
         </div>
