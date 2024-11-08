@@ -1,7 +1,10 @@
+// LoginPage.js
 import React, { useState } from "react";
 import axios from "axios";
 import "./Login.css";
 import { useNavigate } from "react-router-dom";
+import { signInWithPopup } from "firebase/auth";
+import { auth, provider } from "./firebaseConfig";
 
 function LoginPage() {
     const [username, setUsername] = useState("");
@@ -34,6 +37,21 @@ function LoginPage() {
         }
     };
 
+    const handleGoogleSignIn = async () => {
+        try {
+            provider.addScope('https://www.googleapis.com/auth/contacts.readonly');
+            const result = await signInWithPopup(auth, provider);
+            const user = result.user;
+            console.log("User Info:", user);
+            // You can navigate to a different page or save user data here
+            navigate("/movies");
+        } catch (error) {
+            console.error("Error during sign-in:", error);
+            setError("Google sign-in failed. Please try again.");
+        }
+    };  
+
+
     return (
         <div className="login-container">
             <h2>Login</h2>
@@ -51,6 +69,9 @@ function LoginPage() {
             />
             <button onClick={handleLogin}>Login</button>
             <button onClick={handleRegister}>Register</button>
+            <button onClick={handleGoogleSignIn} className="google-signin-button">
+    Sign in with Google
+</button>
             {error && <p className="error">{error}</p>}
         </div>
     );

@@ -192,3 +192,58 @@ body {
   .genre-button:hover, .language-button:hover {
     background-color: #f40612;
   }
+
+  .social-container {
+    padding: 25px 50px;
+    left:0;
+    bottom:0;
+    right:0;
+  }
+  
+  a.social {
+    margin: 0 1rem;
+    transition: transform 250ms;
+    display: inline-block;
+  }
+  
+  a.social:hover {
+    transform: translateY(-2px);
+  }
+  
+  a.youtube {
+    color: #eb3223;
+  }
+  
+  a.facebook {
+    color: #4968ad;
+  }
+  
+  a.twitter {
+    color: #49a1eb;
+  }
+  
+  a.instagram {
+    color: black;
+  }
+
+  .genre-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 20px 0;
+  }
+  
+  .genre-button {
+    background-color: #333;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    margin: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s;
+  }
+  
+  .genre-button:hover {
+    background-color: #007bff;
+  }
+  
