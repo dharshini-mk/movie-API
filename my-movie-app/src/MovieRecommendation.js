@@ -34,11 +34,9 @@ function App() {
     { id: 14, name: "Fantasy" },
     { id: 36, name: "History" },
     { id: 27, name: "Horror" },
-    { id: 10402, name: "Music" },
     { id: 9648, name: "Mystery" },
     { id: 10749, name: "Romance" },
     { id: 878, name: "Science Fiction" },
-    { id: 10770, name: "TV Movie" },
     { id: 53, name: "Thriller" },
     { id: 10752, name: "War" },
     { id: 37, name: "Western" },
@@ -217,7 +215,7 @@ const fetchTrailer = async (title) => {
   return (
     <div className="app">
       <header className="app-header">
-        <h1 className="line1">MOVIE RECOMMENDATION API</h1>
+       <div><center> <h1 className="line1">Search for movies you love and discover everything about them!❤️</h1> </center></div>
         <form
           onSubmit={(e) => {
             e.preventDefault();
@@ -259,6 +257,7 @@ const fetchTrailer = async (title) => {
       {loading && <div className="spinner"></div>}
       {error && <p className="error-message">{error}</p>}
 
+      <center><h2>Trending Today</h2></center>
       <div className="movies-grid">
         {movies.length > 0 ? (
           movies.map((movie) => (
