@@ -1,12 +1,35 @@
 /* Login.css */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body, html {
+    height: 100%;
+}
+
+.background{
+    background-image: url(loginbg.jpg);
+    background-position: center;
+    background-size: cover;
+    height: 100vh;
+    margin-top: 0%;
+}
 .login-container {
     background-color: white;
     padding: 40px;
-    width: 300px;
-    margin: 100px auto;
+    padding-top: 200px;
+    width: 400px;
+    height: 100%;
+    
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     text-align: center;
+    justify-content: right;
+    justify-items: center;
+    margin-left: 800px;
+    
 }
 
 .login-container h2 {
@@ -33,6 +56,7 @@
     border-radius: 4px;
     cursor: pointer;
     margin-bottom: 10px;
+    
 }
 
 .login-container button:hover {

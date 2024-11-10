@@ -53,26 +53,28 @@ function LoginPage() {
 
 
     return (
-        <div className="login-container">
-            <h2>Login</h2>
-            <input
-                type="text"
-                placeholder="Username"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
-            />
-            <input
-                type="password"
-                placeholder="Password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-            />
-            <button onClick={handleLogin}>Login</button>
-            <button onClick={handleRegister}>Register</button>
-            <button onClick={handleGoogleSignIn} className="google-signin-button">
-    Sign in with Google
-</button>
-            {error && <p className="error">{error}</p>}
+        <div className="background">
+            <div className="login-container">
+                <h2>Login</h2>
+                <input
+                    type="text"
+                    placeholder="Username"
+                    value={username}
+                    onChange={(e) => setUsername(e.target.value)}
+                />
+                <input
+                    type="password"
+                    placeholder="Password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                />
+                <button onClick={handleLogin} className="login-b">Login</button>
+                <button onClick={handleRegister} className="register-b">Register</button>
+                <button onClick={handleGoogleSignIn} className="google-signin-button">
+        Sign in with Google
+    </button>
+                {error && <p className="error">{error}</p>}
+            </div>
         </div>
     );
 }

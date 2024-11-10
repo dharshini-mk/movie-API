@@ -1,249 +1,332 @@
 /* App styles for Netflix-style interface */
 body {
-  background-image: url('bgphoto.jpg'); /* Path to your image */
-  background-size: cover; /* Ensures the background covers the whole page */
-  background-position:center; /* Centers the image */
-  background-attachment: fixed; 
-  background-repeat: no-repeat; /* Prevents the image from repeating */
-  height: 100vh; /* Ensure the background covers the entire height of the viewport */
-  margin: 0; /* Remove default margin */
-    margin: 0;
-    font-family: "Poppins", sans-serif;
-  font-weight: 300;
-  font-style: normal;
-    background-color: #141414;
-    color: white;
-  }
   
-  .app {
-    text-align: center;
-    padding: 20px;
-  }
   
-  .app-header {
-    padding: 20px;
-  }
+  font-family: "Poppins", sans-serif;
+font-weight: 300;
+font-style: normal;
+  background-color: #141414;
+  color: white;
+}
 
-  .line1{
-    padding-bottom: 30px;
-    font-weight: 500;
-  }
-  
-  .search-input {
-    padding: 10px;
-    width: 300px;
-    margin-right: 10px;
-    border-radius: 4px;
-    border: none;
-  }
-  
-  .search-button {
-    padding: 10px 20px;
-    border: none;
-    background-color: #e50914;
-    color: white;
-    cursor: pointer;
-    border-radius: 4px;
-    padding-right: 20px;
-  
-  }
-  
-  .speech-button {
-    padding: 10px 15px;
-    border: none;
-    background-color: #e50914;
-    color: white;
-    cursor: pointer;
-    border-radius: 4px;
-    margin-left: 5px;
-    margin-right: 20px;
-  }
-  
-  .search-button:hover,
-  .speech-button:hover {
-    background-color: #f40612;
-  }
-  
-  .movies-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    gap: 20px;
-    padding: 20px;
-  }
-  
-  .movie-card {
-    position: relative;
-    cursor: pointer;
-    transition: transform 0.3s;
-  }
-  
-  .movie-card:hover {
-    transform: scale(1.05);
-  }
-  
-  .movie-poster {
-    width: 100%;
-    border-radius: 8px;
-  }
-  
-  .movie-info {
-    text-align: left;
-    padding: 10px;
-  }
-  
-  .movie-info h3 {
-    margin: 0;
-  }
-  
-  .movie-info p {
-    color: #b3b3b3;
-  }
-  
-  .error-message {
-    color: red;
-    margin-top: 20px;
-  }
-  
-  .spinner {
-    border: 4px solid rgba(255, 255, 255, 0.3);
-    border-radius: 50%;
-    border-top: 4px solid #e50914;
-    width: 40px;
-    height: 40px;
-    animation: spin 1s linear infinite;
-    margin: 20px auto;
-  }
-  
-  @keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-  }
-  
-  .movie-details {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: rgba(0, 0, 0, 0.9);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 1000;
-    overflow-y: auto; /* Allow vertical scrolling */
-  }
-  
-  .movie-details-content {
-    background-color: #1c1c1c;
-    padding: 20px;
-    border-radius: 8px;
-    position: relative;
-    max-height: 90vh; /* Limit height to 90% of the viewport height */
-    overflow-y: auto; /* Allow scrolling within the content */
-  }
-  
-  
-  .close-button {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    border: none;
-    background: transparent;
-    color: white;
-    font-size: 24px;
-    cursor: pointer;
-  }
-  
-  .details-poster {
-    width: 200px;
-    border-radius: 8px;
-  }
-  
-  .details-info {
-    text-align: left;
-    padding-left: 20px;
-  }
-  
-  .trailer-container {
-    margin-top: 20px;
-  }
-  
-  .genres-section, .languages-section {
-    margin-top: 20px;
-  }
-  
-  .genres-list, .languages-list {
-    display: flex;
-    gap: 10px;
-    justify-content: center;
-    flex-wrap: wrap;
-  }
-  
-  .genre-button, .language-button {
-    padding: 10px 15px;
-    border: none;
-    background-color: #e50914;
-    color: white;
-    cursor: pointer;
-    border-radius: 4px;
-    transition: background-color 0.2s;
-  }
-  
-  .genre-button:hover, .language-button:hover {
-    background-color: #f40612;
-  }
 
-  .social-container {
-    padding: 25px 50px;
-    left:0;
-    bottom:0;
-    right:0;
-  }
-  
-  a.social {
-    margin: 0 1rem;
-    transition: transform 250ms;
-    display: inline-block;
-  }
-  
-  a.social:hover {
-    transform: translateY(-2px);
-  }
-  
-  a.youtube {
-    color: #eb3223;
-  }
-  
-  a.facebook {
-    color: #4968ad;
-  }
-  
-  a.twitter {
-    color: #49a1eb;
-  }
-  
-  a.instagram {
-    color: black;
-  }
+.app {
+  text-align: center;
+  padding: 20px;
+}
 
-  .genre-buttons {
-    display: flex;
-    flex-wrap: wrap;
-    margin: 20px 0;
-  }
+.app-header {
+  padding: 20px;
+}
+
+.line1{
+  color: #fff;
+  font-size: 52px;
+  margin-top: 140px;
+  padding-bottom: 30px;
+  font-weight: 600;
+}
+
+.search-input {
+  padding: 15px;
+  width: 500px;
+  margin-right: 10px;
+  border-radius: 25px;
+  font-size: large;
+  border: solid;
+  border-width: 2px;
+  border-color: gray;
+}
+
+.search-button {
+  padding: 10px 15px;
+  border: none;
+  font-family: "Poppins", sans-serif;
+  background-color: #e50914;
+  color: white;
+  cursor: pointer;
+  width: 100px;
+  font-size: large;
+  border-radius: 25px;
+  padding-right: 20px;
+
+}
+
+.speech-button {
+  padding: 15px 20px;
+  border: none;
+  font-size: large;
+
+  background-color: #e50914;
+  color: white;
+  cursor: pointer;
+  border-radius: 25px;
+  margin-left: 5px;
+  margin-right: 20px;
+}
+
+.search-button:hover,
+.speech-button:hover {
+  background-color: #f40612;
+}
+
+.movies-grid {
+  display: flex;
+  gap: 20px;
+  padding: 20px;
+  flex-wrap: wrap; /* Allows wrapping to next line if needed */
+  justify-content: space-evenly;
   
-  .genre-button {
-    background-color: #333;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    margin: 5px;
-    cursor: pointer;
-    font-size: 14px;
-    transition: background-color 0.3s;
-  }
+}
+
+.movie-card {
+  position: relative;
+  cursor: pointer;
+  transition: transform 0.3s;
+  width: 200px; /* Set a fixed width for each movie card */
+  text-align: center;
+  flex-direction: row;
+}
+
+.movie-card:hover {
+  transform: scale(1.05);
+}
+
+.movie-poster {
+  width: 100%;
+  height: 300px; /* Set a fixed height for uniformity */
+  object-fit: cover; /* Keeps aspect ratio without stretching */
+  border-radius: 8px;
+}
+
+
+.movie-info {
+  text-align: left;
+  padding: 10px;
+}
+
+.movie-info h3 {
+  margin: 0;
+  padding: 3px;
+}
+
+.movie-info p {
+  color: #b3b3b3;
+  padding: 2px;
+}
+
+.error-message {
+  color: red;
+  margin-top: 20px;
+}
+
+.spinner {
+  border: 4px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  border-top: 4px solid #e50914;
+  width: 40px;
+  height: 40px;
+  animation: spin 1s linear infinite;
+  margin: 20px auto;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.movie-details {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.9);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  overflow-y: auto; /* Allow vertical scrolling */
+}
+
+.movie-details-content {
+  background-color: #1c1c1c;
+  padding: 20px;
+  border-radius: 10px;
+  position: relative;
+  max-height: 85vh; /* Limit height to 90% of the viewport height */
+  overflow-y: auto; /* Allow scrolling within the content */
+}
+
+
+.close-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  border: none;
+  background: transparent;
+  color: white;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+.details-poster {
+  width: 200px;
+  border-radius: 8px;
+}
+
+.details-info {
+  text-align: left;
+  padding-left: 20px;
+}
+
+.trailer-container {
+  margin-top: 20px;
+}
+
+.genre-buttons{
   
-  .genre-button:hover {
-    background-color: #007bff;
-  }
+  display: flex;
+  flex-direction: row;
   
+  justify-content: space-between;
+  align-items: center;
+  gap: 30px;
+  text-align: center;
+  margin: 20px 0px;
+  overflow-x: scroll;
+  overflow-y: hidden; /* Disable vertical scrolling */
+  white-space: nowrap; /* Prevent line breaks */
+  scroll-behavior: smooth; /* Smooth scrolling */
+  padding: 10px;
+
+
+}
+
+
+
+.genre-button {
+  height:320px ;
+  width: 225px;
+  padding: 10px 15px;
+  border: none;
+  background-image:url('action.jpg') ;
+  color: white;
+  font-family: "Poppins", sans-serif;
+  cursor: pointer;
+  border-radius: 10px;
+  transition: background-color 0.2s;
+  display:flexbox ;
+  font-size: 20px;
+ 
+  
+}
+
+.genre-button:hover{
+  background-color: #da525273;
+}
+
+.social-container {
+  padding: 25px 50px;
+  left:0;
+  bottom:0;
+  right:0;
+}
+
+a.social {
+  margin: 0 1rem;
+  transition: transform 250ms;
+  display: inline-block;
+}
+
+a.social:hover {
+  transform: translateY(-2px);
+}
+
+a.youtube {
+  color: #eb3223;
+}
+
+a.facebook {
+  color: #4968ad;
+}
+
+a.twitter {
+  color: #49a1eb;
+}
+
+a.instagram {
+  color: black;
+}
+
+.genre-buttons {
+  display: flex;
+  overflow-x: auto; /* Enables horizontal scrolling */
+  white-space: nowrap; /* Keeps buttons in a single line */
+  gap: 10px;
+  padding: 10px;
+  scroll-behavior: smooth; /* Smooth scroll */
+  margin: 20px 0;
+}
+
+.genre-button {
+  background-color: #333;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  font-size: 22px;
+  font-weight: 300px;
+  border-radius: 15px;
+  transition: background-color 0.3s;
+  flex: 0 0 auto; /* Prevents buttons from wrapping */
+}
+
+.genre-button:hover {
+background-color: #007bff;
+transform: scale(1.05); /* Slightly enlarges the button */
+box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3); /* Adds a shadow effect */
+}
+
+.similar-movies-grid {
+  display: flex;
+  gap: 20px;
+  justify-content: space-evenly;
+  margin-top: 10px;
+  overflow-x: scroll;
+
+}
+
+.similar-movie-card {
+  width: auto;
+  text-align: center;
+}
+
+.similar-movie-poster {
+  width: auto;
+  border-radius: 5px;
+}
+
+header{
+background-image: url('header.jpg'); 
+background-size:cover ; 
+background-position:center;
+background-repeat: no-repeat; 
+height: 90vh; 
+margin: 0;
+padding: 0%;  
+
+}
+.mind{
+padding: 18px;
+padding-top: 50px;
+}
+
+.trendtext{
+margin-top: 50px ;
+padding: 18px;
+}
+
+.simi{
+padding-top: 20px;
+}

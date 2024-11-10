@@ -18,9 +18,12 @@ function App() {
   const [trailerUrl, setTrailerUrl] = useState(null); // State for trailer URL
   const [selectedGenre, setSelectedGenre] = useState(null); // State for selected genre
 
+  const [similarMovies, setSimilarMovies] = useState([]); // State for similar movies
+
+
   const API_KEY = "2e7b644a"; // OMDB API key
   const TMDB_API_KEY = "6a710a6d7c5ceda7c0591b94359d7587"; // TMDB API key
-  const YOUTUBE_API_KEY = "AIzaSyCFlI4DCTaz7ILp9RHdPuDMmvzY_xVSWXs"; // YouTube API key
+  const YOUTUBE_API_KEY = "AIzaSyDKMoCI5ye_uod3fD6l3cZHjxzCBZdA3ec"; // YouTube API key
 
   const genres = [
     { id: 28, name: "Action" },
@@ -42,6 +45,7 @@ function App() {
     { id: 37, name: "Western" },
   ];
 
+  
  // Updated fetchMoviesByGenre function
 async function fetchMoviesByGenre(genreId) {
   try {
@@ -60,7 +64,7 @@ async function fetchMoviesByGenre(genreId) {
         const releaseYear = new Date(movie.release_date).getFullYear();
 
         try {
-          const omdbResponse = await axios.get(`https://www.omdbapi.com/`, {
+          const omdbResponse = await axios.get('https://www.omdbapi.com/', {
             params: {
               apikey: API_KEY,
               t: title,
@@ -117,14 +121,42 @@ async function fetchMoviesByGenre(genreId) {
 };
 
 const fetchMovieDetails = async (id) => {
-    try {
-        const response = await axios.get(`https://www.omdbapi.com/?apikey=${API_KEY}&i=${id}`);
-        setSelectedMovie(response.data);
-        fetchTrailer(response.data.Title); // Fetch trailer after getting movie details
-    } catch (error) {
-        console.error("Error fetching movie details:", error);
-    }
+  try {
+      const response = await axios.get(`https://www.omdbapi.com/?apikey=${API_KEY}&i=${id}`);
+      setSelectedMovie(response.data);
+      fetchTrailer(response.data.Title);
+
+      if (response.data.imdbID) {
+          // Fetch TMDB ID using the IMDb ID
+          const tmdbFindResponse = await axios.get(`https://api.themoviedb.org/3/find/${response.data.imdbID}`, {
+            params: {
+              api_key: TMDB_API_KEY,
+              external_source: "imdb_id",
+            },
+          });
+
+          const tmdbId = tmdbFindResponse.data.movie_results[0]?.id;
+          if (tmdbId) {
+              const similarResponse = await axios.get(`https://api.themoviedb.org/3/movie/${tmdbId}/similar`, {
+                params: {
+                  api_key: TMDB_API_KEY,
+                },
+              });
+              setSimilarMovies(similarResponse.data.results);
+          } else {
+              console.error("TMDB ID not found.");
+              setSimilarMovies([]); // No similar movies available
+          }
+      } else {
+          console.error("TMDB ID not available for fetching similar movies.");
+          setSimilarMovies([]);
+      }
+  } catch (error) {
+      console.error("Error fetching movie details:", error);
+      setSimilarMovies([]);
+  }
 };
+
 
   const closeDetails = () => {
     setSelectedMovie(null);
@@ -144,7 +176,7 @@ const fetchMovieDetails = async (id) => {
                 trendingMovies.map(async (movie) => {
                     // Check for missing title or release date
                     if (!movie.title || !movie.release_date) {
-                        console.error(`Missing title or release date for movie:`, movie);
+                        console.error('Missing title or release date for movie:', movie);
                         return movie; // Skip OMDB call if title or release date is missing
                     }
 
@@ -186,9 +218,10 @@ const fetchTrailer = async (title) => {
 
   try {
       const response = await axios.get(url);
+      console.log(response.data); // Log the API response for debugging
       if (response.data.items.length > 0) {
-          const videoId = response.data.items[0].id.videoId; // Get the first video ID
-          setTrailerUrl(`https://www.youtube.com/embed/${videoId}`); // Set the trailer URL
+          const videoId = response.data.items[0].id.videoId;
+          setTrailerUrl(`https://www.youtube.com/embed/${videoId}`);
       } else {
           setTrailerUrl(null);
       }
@@ -198,15 +231,27 @@ const fetchTrailer = async (title) => {
   }
 };
 
-  const handleSpeechSearch = () => {
-    const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
-    recognition.onresult = (event) => {
-      const transcript = event.results[0][0].transcript;
-      setSearchQuery(transcript);
-      fetchMovies(transcript);
-    };
-    recognition.start();
+
+const handleSpeechSearch = () => {
+  const recognition = 
+    window.SpeechRecognition || window.webkitSpeechRecognition;
+    
+  if (!recognition) {
+    console.error('Speech Recognition API not supported in this browser.');
+    return;
+  }
+  
+  const recognitionInstance = new recognition();
+  
+  recognitionInstance.onresult = (event) => {
+    const transcript = event.results[0][0].transcript;
+    setSearchQuery(transcript);
+    fetchMovies(transcript);
   };
+  
+  recognitionInstance.start();
+};
+
 
   useEffect(() => {
     fetchTrendingMovies();
@@ -215,7 +260,7 @@ const fetchTrailer = async (title) => {
   return (
     <div className="app">
       <header className="app-header">
-       <div><center> <h1 className="line1">Search for movies you love and discover everything about them!❤️</h1> </center></div>
+       <div><center> <h1 className="line1">Search for movies you love and discover <br></br>everything about them!❤</h1> </center></div>
         <form
           onSubmit={(e) => {
             e.preventDefault();
@@ -238,7 +283,11 @@ const fetchTrailer = async (title) => {
         </form>
 
         {/* Genre Buttons */}
-        <div className="genre-buttons">
+        
+      </header>
+      <center><h2 className="mind">What's in your mind? </h2></center>
+
+      <div className="genre-buttons">
           {genres.map((genre) => (
             <button
               key={genre.id}
@@ -252,12 +301,10 @@ const fetchTrailer = async (title) => {
             </button>
           ))}
         </div>
-      </header>
-
       {loading && <div className="spinner"></div>}
       {error && <p className="error-message">{error}</p>}
 
-      <center><h2>Trending Today</h2></center>
+      <center><h2 className="trendtext"> </h2></center>
       <div className="movies-grid">
         {movies.length > 0 ? (
           movies.map((movie) => (
@@ -268,18 +315,16 @@ const fetchTrailer = async (title) => {
             >
               <img
                 src={
-                  movie.Poster !== "N/A"
-                    ? movie.Poster
-                    : movie.poster_path
-                    ? `https://image.tmdb.org/t/p/w500/${movie.poster_path}`
-                    : "placeholder.jpg"
+                    movie.Poster !== "N/A"
+                        ? movie.Poster
+                        : movie.poster_path
+                        ? `https://image.tmdb.org/t/p/w500/${movie.poster_path}`
+                        : "placeholder.jpg"
                 }
-                alt={movie.Title || movie.title}
-                className="movie-poster"
-              />
+                alt={movie.title}
+                className="movie-poster"/>
               <div className="movie-info">
                 <h3>{movie.Title || movie.title}</h3>
-                <p>{movie.Released || movie.release_date}</p>
               </div>
             </div>
           ))
@@ -307,43 +352,67 @@ const fetchTrailer = async (title) => {
       </div>
 
       {selectedMovie && (
-        <div className="movie-details">
-          <div className="movie-details-content">
+    <div className="movie-details">
+        <div className="movie-details-content">
             <button className="close-button" onClick={closeDetails}>
-              &times;
+                &times;
             </button>
             {trailerUrl ? (
-              <div className="trailer-section">
-                <h3>Watch the Trailer</h3>
-                <iframe
-                  width="560"
-                  height="315"
-                  src={trailerUrl}
-                  title="YouTube video player"
-                  frameBorder="0"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                  allowFullScreen
-                ></iframe>
-              </div>
+                <div className="trailer-section">
+                    <h3>Watch the Trailer</h3>
+                    <iframe
+                        width="560"
+                        height="315"
+                        src={trailerUrl}
+                        title="YouTube video player"
+                        frameBorder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowFullScreen
+                    ></iframe>
+                </div>
             ) : (
-              <p>Trailer not available</p>
+                <p>Trailer not available</p>
             )}
             <div className="details-info">
-              <h2>{selectedMovie.Title}</h2>
-              <p><strong>Released:</strong> {selectedMovie.Released || 'N/A'}</p>
-              <p><strong>Runtime:</strong> {selectedMovie.Runtime || 'N/A'}</p>
-              <p><strong>Category:</strong> {selectedMovie.Genre || 'N/A'}</p>
-              <p><strong>Director:</strong> {selectedMovie.Director || 'N/A'}</p>
-              <p><strong>Writer:</strong> {selectedMovie.Writer || 'N/A'}</p>
-              <p><strong>Actors:</strong> {selectedMovie.Actors || 'N/A'}</p>
-              <p><strong>Plot:</strong> {selectedMovie.Plot || 'N/A'}</p>
-              <p><strong>Language:</strong> {selectedMovie.Language || 'N/A'}</p>
-              <p><strong>Country:</strong> {selectedMovie.Country || 'N/A'}</p>
-              <p><strong>IMDB Rating:</strong> {selectedMovie.imdbRating || 'N/A'}</p>
+                <h2>{selectedMovie.Title}</h2>
+                <p><strong>Released:</strong> {selectedMovie.Released || 'N/A'}</p>
+                <p><strong>Runtime:</strong> {selectedMovie.Runtime || 'N/A'}</p>
+                <p><strong>Category:</strong> {selectedMovie.Genre || 'N/A'}</p>
+                <p><strong>Director:</strong> {selectedMovie.Director || 'N/A'}</p>
+                <p><strong>Writer:</strong> {selectedMovie.Writer || 'N/A'}</p>
+                <p><strong>Actors:</strong> {selectedMovie.Actors || 'N/A'}</p>
+                <p><strong>Plot:</strong> {selectedMovie.Plot || 'N/A'}</p>
+                <p><strong>Language:</strong> {selectedMovie.Language || 'N/A'}</p>
+                <p><strong>Country:</strong> {selectedMovie.Country || 'N/A'}</p>
+                <p><strong>IMDB Rating:</strong> {selectedMovie.imdbRating || 'N/A'}</p>
+                
+                {/* Similar Movies Section */}
+                <h3 className="simi">Similar Movies</h3>
+                {similarMovies.length > 0 ? (
+                    <div className="similar-movies-grid">
+                        {similarMovies.map((movie) => (
+                            <div className="similar-movie-card" key={movie.id}>
+                                <img
+                                  src={
+                                      movie.poster_path
+                                          ? `https://image.tmdb.org/t/p/w200/${movie.poster_path}`
+                                          : "placeholder.jpg"
+                                  }
+                                  alt={movie.title}
+                                  className="similar-movie-poster"
+                              />
+                                <p>{movie.title}</p>
+                            </div>
+                        ))}
+                    </div>
+                ) : (
+                    <p>No similar movies available.</p>
+                )}
             </div>
-          </div>
         </div>
-      )}
+    </div>
+)}
+
     </div>
   );
 }
