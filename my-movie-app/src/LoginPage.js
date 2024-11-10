@@ -1,5 +1,5 @@
 // LoginPage.js
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "./Login.css";
 import { useNavigate } from "react-router-dom";
@@ -11,6 +11,12 @@ function LoginPage() {
     const [password, setPassword] = useState("");
     const [error, setError] = useState("");
     const navigate = useNavigate();
+
+    useEffect(() => {
+        if (localStorage.getItem("token")) {
+            navigate("/movies");
+        }
+    }, [navigate]);
 
     const handleLogin = async () => {
         try {
@@ -42,15 +48,25 @@ function LoginPage() {
             provider.addScope('https://www.googleapis.com/auth/contacts.readonly');
             const result = await signInWithPopup(auth, provider);
             const user = result.user;
+    
+            // Optionally, save the token or relevant data to local storage
+            localStorage.setItem("googleAuthToken", user.accessToken);
+            
+            // You can also send the token to your backend for further processing if needed
             console.log("User Info:", user);
-            // You can navigate to a different page or save user data here
+    
             navigate("/movies");
         } catch (error) {
             console.error("Error during sign-in:", error);
             setError("Google sign-in failed. Please try again.");
         }
-    };  
-
+    };
+    
+    const handleInputChange = (setter) => (e) => {
+        setter(e.target.value);
+        setError("");  // Clear error on new input
+    };
+    
 
     return (
         <div className="background">
@@ -60,19 +76,18 @@ function LoginPage() {
                     type="text"
                     placeholder="Username"
                     value={username}
-                    onChange={(e) => setUsername(e.target.value)}
+                    onChange={handleInputChange(setUsername)}
                 />
                 <input
                     type="password"
                     placeholder="Password"
                     value={password}
-                    onChange={(e) => setPassword(e.target.value)}
+                    onChange={handleInputChange(setPassword)}
                 />
+
                 <button onClick={handleLogin} className="login-b">Login</button>
                 <button onClick={handleRegister} className="register-b">Register</button>
-                <button onClick={handleGoogleSignIn} className="google-signin-button">
-        Sign in with Google
-    </button>
+                <button onClick={handleGoogleSignIn} className="google-signin-button" aria-label="Sign in with Google">Sign in with Google</button>
                 {error && <p className="error">{error}</p>}
             </div>
         </div>
