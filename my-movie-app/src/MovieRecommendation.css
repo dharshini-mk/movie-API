@@ -1,24 +1,18 @@
 /* App styles for Netflix-style interface */
 body {
-  
-  
   font-family: "Poppins", sans-serif;
 font-weight: 300;
 font-style: normal;
   background-color: #141414;
   color: white;
 }
-
-
 .app {
   text-align: center;
   padding: 20px;
 }
-
 .app-header {
   padding: 20px;
 }
-
 .line1{
   color: #fff;
   font-size: 52px;
@@ -26,15 +20,14 @@ font-style: normal;
   padding-bottom: 30px;
   font-weight: 600;
 }
-
 .search-input {
   padding: 15px;
   width: 500px;
   margin-right: 10px;
   border-radius: 25px;
-  font-size: large;
+  font-size: larger;
   border: solid;
-  border-width: 2px;
+  border-width: 2.05px;
   border-color: gray;
 }
 
@@ -56,7 +49,6 @@ font-style: normal;
   padding: 15px 20px;
   border: none;
   font-size: large;
-
   background-color: #e50914;
   color: white;
   cursor: pointer;
@@ -64,7 +56,6 @@ font-style: normal;
   margin-left: 5px;
   margin-right: 20px;
 }
-
 .search-button:hover,
 .speech-button:hover {
   background-color: #f40612;
@@ -83,7 +74,7 @@ font-style: normal;
   position: relative;
   cursor: pointer;
   transition: transform 0.3s;
-  width: 200px; /* Set a fixed width for each movie card */
+  width: 201px; /* Set a fixed width for each movie card */
   text-align: center;
   flex-direction: row;
 }
