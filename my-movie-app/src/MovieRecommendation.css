@@ -1,83 +1,82 @@
-/* Netflix-Style App Styles */
+/* App styles for Netflix-style interface */
 body {
   font-family: "Poppins", sans-serif;
-  font-weight: 300;
-  font-style: normal;
+font-weight: 300;
+font-style: normal;
   background-color: #141414;
   color: white;
 }
-
-/* App Layout */
 .app {
   text-align: center;
   padding: 20px;
 }
-
 .app-header {
   padding: 20px;
 }
-
-/* Main Heading */
-.line1 {
+.line1{
   color: #fff;
   font-size: 52px;
   margin-top: 140px;
   padding-bottom: 30px;
   font-weight: 600;
 }
-
-/* Search Box */
 .search-input {
   padding: 15px;
   width: 500px;
   margin-right: 10px;
   border-radius: 25px;
   font-size: larger;
-  border: 2.05px solid gray;
+  border: solid;
+  border-width: 2.05px;
+  border-color: gray;
 }
 
-/* Buttons */
-.search-button,
-.speech-button {
+.search-button {
   padding: 10px 15px;
   border: none;
   font-family: "Poppins", sans-serif;
   background-color: #e50914;
   color: white;
   cursor: pointer;
+  width: 100px;
   font-size: large;
   border-radius: 25px;
-}
+  padding-right: 20px;
 
-.search-button {
-  width: 100px;
 }
 
 .speech-button {
   padding: 15px 20px;
-  margin: 0 20px;
+  border: none;
+  font-size: large;
+  background-color: #e50914;
+  color: white;
+  cursor: pointer;
+  border-radius: 25px;
+  margin-left: 5px;
+  margin-right: 20px;
 }
-
 .search-button:hover,
 .speech-button:hover {
   background-color: #f40612;
 }
 
-/* Movie Grid */
 .movies-grid {
   display: flex;
   gap: 20px;
   padding: 20px;
-  flex-wrap: wrap;
+  flex-wrap: wrap; /* Allows wrapping to next line if needed */
   justify-content: space-evenly;
+  
 }
 
 .movie-card {
   position: relative;
   cursor: pointer;
   transition: transform 0.3s;
-  width: 201px;
+  width: 201px; /* Set a fixed width for each movie card */
   text-align: center;
+  flex-direction: row;
 }
 
 .movie-card:hover {
@@ -86,10 +85,11 @@ body {
 
 .movie-poster {
   width: 100%;
-  height: 300px;
-  object-fit: cover;
+  height: 300px; /* Set a fixed height for uniformity */
+  object-fit: cover; /* Keeps aspect ratio without stretching */
   border-radius: 8px;
 }
+
 
 .movie-info {
   text-align: left;
@@ -106,13 +106,11 @@ body {
   padding: 2px;
 }
 
-/* Error Message */
 .error-message {
   color: red;
   margin-top: 20px;
 }
 
-/* Loading Spinner */
 .spinner {
   border: 4px solid rgba(255, 255, 255, 0.3);
   border-radius: 50%;
@@ -128,7 +126,6 @@ body {
   100% { transform: rotate(360deg); }
 }
 
-/* Movie Details Modal */
 .movie-details {
   position: fixed;
   top: 0;
@@ -140,7 +137,7 @@ body {
   align-items: center;
   justify-content: center;
   z-index: 1000;
-  overflow-y: auto;
+  overflow-y: auto; /* Allow vertical scrolling */
 }
 
 .movie-details-content {
@@ -148,9 +145,10 @@ body {
   padding: 20px;
   border-radius: 10px;
   position: relative;
-  max-height: 85vh;
-  overflow-y: auto;
+  max-height: 85vh; /* Limit height to 90% of the viewport height */
+  overflow-y: auto; /* Allow scrolling within the content */
 }
+
 
 .close-button {
   position: absolute;
@@ -173,47 +171,57 @@ body {
   padding-left: 20px;
 }
 
-/* Trailer Container */
 .trailer-container {
   margin-top: 20px;
 }
 
-/* Genre Buttons */
-.genre-buttons {
+.genre-buttons{
+  
   display: flex;
+  flex-direction: row;
+  
   justify-content: space-between;
   align-items: center;
   gap: 30px;
   text-align: center;
   margin: 20px 0px;
   overflow-x: scroll;
-  overflow-y: hidden;
-  white-space: nowrap;
-  scroll-behavior: smooth;
+  overflow-y: hidden; /* Disable vertical scrolling */
+  white-space: nowrap; /* Prevent line breaks */
+  scroll-behavior: smooth; /* Smooth scrolling */
   padding: 10px;
+
+
 }
 
+
+
 .genre-button {
-  height: 320px;
+  height:320px ;
   width: 225px;
   padding: 10px 15px;
   border: none;
-  background-image: url('action.jpg');
+  background-image:url('action.jpg') ;
   color: white;
   font-family: "Poppins", sans-serif;
   cursor: pointer;
   border-radius: 10px;
   transition: background-color 0.2s;
+  display:flexbox ;
   font-size: 20px;
+ 
+  
 }
 
-.genre-button:hover {
+.genre-button:hover{
   background-color: #da525273;
 }
 
-/* Social Links */
 .social-container {
   padding: 25px 50px;
+  left:0;
+  bottom:0;
+  right:0;
 }
 
 a.social {
@@ -226,21 +234,58 @@ a.social:hover {
   transform: translateY(-2px);
 }
 
-a.youtube { color: #eb3223; }
+a.youtube {
+  color: #eb3223;
+}
 
-a.facebook { color: #4968ad; }
+a.facebook {
+  color: #4968ad;
+}
 
-a.twitter { color: #49a1eb; }
+a.twitter {
+  color: #49a1eb;
+}
 
-a.instagram { color: black; }
+a.instagram {
+  color: black;
+}
 
-/* Similar Movies */
+.genre-buttons {
+  display: flex;
+  overflow-x: auto; /* Enables horizontal scrolling */
+  white-space: nowrap; /* Keeps buttons in a single line */
+  gap: 10px;
+  padding: 10px;
+  scroll-behavior: smooth; /* Smooth scroll */
+  margin: 20px 0;
+}
+
+.genre-button {
+  background-color: #333;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  font-size: 22px;
+  font-weight: 300px;
+  border-radius: 15px;
+  transition: background-color 0.3s;
+  flex: 0 0 auto; /* Prevents buttons from wrapping */
+}
+
+.genre-button:hover {
+background-color: #007bff;
+transform: scale(1.05); /* Slightly enlarges the button */
+box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3); /* Adds a shadow effect */
+}
+
 .similar-movies-grid {
   display: flex;
   gap: 20px;
   justify-content: space-evenly;
   margin-top: 10px;
   overflow-x: scroll;
+
 }
 
 .similar-movie-card {
@@ -253,28 +298,26 @@ a.instagram { color: black; }
   border-radius: 5px;
 }
 
-/* Header Section */
-header {
-  background-image: url('header.jpg');
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  height: 90vh;
-  margin: 0;
-  padding: 0;
+header{
+background-image: url('header.jpg'); 
+background-size:cover ; 
+background-position:center;
+background-repeat: no-repeat; 
+height: 90vh; 
+margin: 0;
+padding: 0%;  
+
+}
+.mind{
+padding: 18px;
+padding-top: 50px;
 }
 
-/* Padding Adjustments */
-.mind {
-  padding: 18px;
-  padding-top: 50px;
+.trendtext{
+margin-top: 50px ;
+padding: 18px;
 }
 
-.trendtext {
-  margin-top: 50px;
-  padding: 18px;
-}
-
-.simi {
-  padding-top: 20px;
+.simi{
+padding-top: 20px;
 }
